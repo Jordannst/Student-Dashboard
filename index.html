@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <title>Student Dashboard</title>
+  </head>
+
+  <body>
+    <div class="grid-container">
+      <header class="header">
+        <div class="header__search">
+          <!-- Search -->
+          <input type="text" class="search" placeholder="Cari mata Kuliah" />
+          <span class="search-icon">&#x1F50D;</span>
+        </div>
+        <div class="header__avatar">
+          <div class="name-container">
+            <p class="name">Jordan Sutarto</p>
+            <p class="regis">S22310272</p>
+          </div>
+
+          <img
+            src="https://res.cloudinary.com/dap1lvqeg/image/upload/v1731403433/jordanpic_zt96om.jpg"
+            alt="profile picture"
+          />
+        </div>
+      </header>
+
+      <aside class="sidenav">
+        <ul class="sidenav__list">
+          <li class="sidenav_header">Student Dashboard</li>
+          <li class="sidenav__list-item">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+          </li>
+          <li class="sidenav__list-item">
+            <i class="fas fa-calendar"></i> Jadwal Kuliah
+          </li>
+          <li class="sidenav__list-item">
+            <i class="fas fa-graduation-cap"></i> Nilai Mata Kuliah
+          </li>
+          <li class="sidenav__list-item">
+            <i class="fas fa-user"></i> Profil Mahasiswa
+          </li>
+        </ul>
+        <i class="fa-solid fa-gear"></i>
+      </aside>
+
+      <main class="main">
+        <div class="main-header">
+          <div class="main-header__heading">Selamat Datang, Jordan!</div>
+          <div class="main-header__updates">Rabu, 20 November 2024</div>
+        </div>
+
+        <div class="main-overview">
+          <div class="overviewcard">
+            <div class="overviewcard__icon">Total SKS</div>
+            <div class="overviewcard__info">23 SKS</div>
+          </div>
+          <div class="overviewcard">
+            <div class="overviewcard__icon">IPK</div>
+            <div class="overviewcard__info">3.85</div>
+          </div>
+          <div class="overviewcard">
+            <div class="overviewcard__icon">Jadwal Hari Ini</div>
+            <div class="overviewcard__info">4 Kelas</div>
+          </div>
+          <div class="overviewcard">
+            <div class="overviewcard__icon">Status Pembayaran</div>
+            <div class="overviewcard__info">Lunas</div>
+          </div>
+        </div>
+
+        <div class="main-cards">
+          <div class="card">
+            <canvas id="attendanceChart" width="400" height="200"></canvas>
+          </div>
+          <div class="card">
+            <canvas id="ipkChart" width="500" height="500"></canvas>
+          </div>
+          <div class="card">
+            <h3>Aktivitas Terbaru</h3>
+            <ul>
+              <li>Menyelesaikan Tugas Final: Web Design</li>
+              <li>Menyelesaikan Tugas Final: Statistics & Probability</li>
+              <li>Melunasi Pembayaran Kuliah</li>
+              <li>Menyelesaikan Tugas: Database</li>
+            </ul>
+          </div>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <div class="footer__copyright">&copy; 2024 Universitas Klabat</div>
+        <div class="footer__signature">Dashboard by Jordan</div>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<!--Chart Kehadiran dan IPK Mahasiswa Menggunakan Chart.js -->
+<script>
+  const labels = [
+    "Web Design",
+    "Introduction to Database",
+    "Computer Organization",
+    "Visual Programming",
+    "Statistics & Probability",
+  ];
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Kehadiran ",
+        data: [29, 28, 30, 29, 27],
+        backgroundColor: "#4d4fdb",
+        backgroundColor: [
+          "#1E88E5",
+          "#1976D2",
+          "#1565C0",
+          "#0D47A1",
+          "#82B1FF",
+        ],
+        borderColor: "#b0f3f1",
+        borderWidth: 1.5,
+        fill: true,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 30,
+        ticks: {
+          stepSize: 1,
+        },
+      },
+    },
+  };
+
+  const ctx = document.getElementById("attendanceChart").getContext("2d");
+  const attendanceChart = new Chart(ctx, {
+    type: "bar",
+    data: data,
+    options: options,
+  });
+  /////////////////////////////////////////////////////////////////////////////////////
+  //  Chart IPK Mahasiswa
+  const semester = [
+    "Semester 1 2023/2024",
+    "Semester 2 2023/2024",
+    "Semester 1 2024/2025",
+    "Semester 2 2024/2025",
+  ];
+  const chart = {
+    labels: semester,
+    datasets: [
+      {
+        label: "IPK",
+        data: [3.1, 3.56, 3.75, 3.85],
+        borderColor: "#82B1FF",
+        borderWidth: 2,
+        fill: true,
+      },
+    ],
+  };
+
+  const opsi = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 4.0,
+        ticks: {
+          stepSize: 1,
+        },
+      },
+    },
+  };
+
+  const contextIPK = document.getElementById("ipkChart").getContext("2d");
+  const ipkChart = new Chart(contextIPK, {
+    type: "line",
+    data: chart,
+    options: opsi,
+  });
+</script>
